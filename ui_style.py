@@ -37,6 +37,17 @@ html, body, [class*="css"], .stMarkdown, .stText, button, input, select, textare
     margin: 0 0 0.35rem 0; padding: 0; letter-spacing: -0.02em;
 }
 .psa-hero p.lead { color: rgba(255,255,255,0.88); font-size: 1.05rem; margin: 0 0 1.3rem 0; max-width: 780px; }
+.psa-credit {
+    position: absolute; top: 1.1rem; right: 1.4rem; z-index: 2; text-align: right;
+    background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.30);
+    border-radius: 12px; padding: 0.45rem 0.85rem; line-height: 1.25;
+}
+.psa-credit small { display: block; font-size: 0.68rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: rgba(255,255,255,0.75); }
+.psa-credit b { font-size: 0.92rem; color: #FFFFFF; font-weight: 600; }
+@media (max-width: 760px) {
+    .psa-credit { position: static; display: inline-block; text-align: left; margin-bottom: 0.8rem; }
+}
 .psa-badge {
     display: inline-block; background: rgba(255,255,255,0.16); color: #FFFFFF;
     border: 1px solid rgba(255,255,255,0.28); border-radius: 999px;
@@ -96,6 +107,7 @@ h5 { color: #1F6F8B; font-weight: 600 !important; margin-top: 0.6rem; }
 
 HERO = """
 <div class="psa-hero">
+  <div class="psa-credit"><small>Created and developed by</small><b>Dr. Rafael dos Reis</b></div>
   <div class="psa-badge">Open-source · ⁸⁷Sr/⁸⁶Sr – ¹⁴³Nd/¹⁴⁴Nd provenance</div>
   <h1>Bayesian Model for PSA</h1>
   <p class="lead">Estimate the probability that each sample comes from each Potential Source Area.
@@ -113,7 +125,7 @@ HERO = """
 
 FOOTER = f"""
 <div class="psa-footer">
-  <div>Bayesian Model for PSA · MIT License · Uploaded data are processed in memory for your session only and are never stored.</div>
+  <div>Bayesian Model for PSA · Created and developed by Dr. Rafael dos Reis · MIT License · Uploaded data are processed in memory for your session only and are never stored.</div>
   <div><a href="{REPO_URL}" target="_blank">GitHub</a> ·
        <a href="{REPO_URL}#the-model" target="_blank">Method</a> ·
        <a href="{REPO_URL}/issues" target="_blank">Report an issue</a></div>
