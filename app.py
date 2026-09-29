@@ -123,7 +123,7 @@ PSA can still get a high probability – check the *diagnostics* table.
 """
         )
 
-tab_src, tab_smp, tab_res = st.tabs(["🗺️  1 · Source areas", "🧪  2 · Samples", "📊  3 · Results"])
+tab_src, tab_smp, tab_res = st.tabs(["Source areas", "Samples", "Results"])
 
 # ---------------------------------------------------------------------------
 # 1. Source areas
