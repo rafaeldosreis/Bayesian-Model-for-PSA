@@ -123,6 +123,7 @@ Once deployed, add a link or embed the app in any web page (lab website, Google 
 
 ```
 app.py                 Streamlit web interface
+ui_style.py            visual style (CSS, header, footer)
 psa/io.py              robust CSV/TXT reading and number parsing
 psa/model.py           source fitting and Bayesian posteriors
 psa/plotting.py        figure A (region diagram) and figure B (heatmap)

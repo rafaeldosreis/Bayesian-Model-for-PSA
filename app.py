@@ -14,12 +14,17 @@ import streamlit as st
 from psa import CHUR_DEFAULT, clean_text, compute_posteriors, eps_nd_from_ratio, fit_sources, ratio_from_eps_nd
 from psa.io import guess_column, read_table, to_numeric
 from psa.plotting import default_region_colors, fig_to_bytes, plot_posterior_heatmap, plot_region_diagram
+from ui_style import apply_style, footer, hero, sidebar_brand
 
 APP_TITLE = "Bayesian Model for PSA"
 EXAMPLES = Path(__file__).parent / "examples"
 NONE = "— none —"
 
-st.set_page_config(page_title=APP_TITLE, page_icon="🌍", layout="wide")
+st.set_page_config(page_title=APP_TITLE, page_icon="🌍", layout="wide",
+                   menu_items={"Get help": "https://github.com/rafaeldosreis/Bayesian-Model-for-PSA",
+                               "Report a bug": "https://github.com/rafaeldosreis/Bayesian-Model-for-PSA/issues",
+                               "About": "Bayesian Model for PSA – open-source provenance tool."})
+apply_style()
 
 
 # ---------------------------------------------------------------------------
@@ -84,11 +89,10 @@ def download_fig(fig, stem: str, key: str):
 # ---------------------------------------------------------------------------
 # Header & sidebar
 # ---------------------------------------------------------------------------
-st.title(APP_TITLE)
-st.caption("Bayesian provenance of samples from Potential Source Areas (PSAs) "
-           "using ⁸⁷Sr/⁸⁶Sr and ¹⁴³Nd/¹⁴⁴Nd isotope signatures.")
+hero()
 
 with st.sidebar:
+    sidebar_brand()
     st.header("Model settings")
     chur = st.number_input("CHUR ¹⁴³Nd/¹⁴⁴Nd", value=CHUR_DEFAULT, format="%.6f", step=0.000001,
                            help="Used to convert between 143Nd/144Nd and εNd(0).")
@@ -119,7 +123,7 @@ PSA can still get a high probability – check the *diagnostics* table.
 """
         )
 
-tab_src, tab_smp, tab_res = st.tabs(["① Potential Source Areas", "② Samples", "③ Results"])
+tab_src, tab_smp, tab_res = st.tabs(["🗺️  1 · Source areas", "🧪  2 · Samples", "📊  3 · Results"])
 
 # ---------------------------------------------------------------------------
 # 1. Source areas
@@ -394,6 +398,15 @@ with tab_res:
             xlim = (xa, xb) if manual else (float(allx.min() - pad_x), float(allx.max() + pad_x))
             ylim = (ya, yb) if manual else (float(ally.min() - pad_y), float(ally.max() + pad_y))
 
+            n_out = int(diag["outside_all_95pct_ellipses"].sum())
+            m1, m2, m3, m4 = st.columns(4)
+            m1.metric("PSAs in model", len(stats))
+            m2.metric("Samples analysed", len(diag))
+            m3.metric("Mean max. probability", f"{diag['max_posterior'].mean():.2f}",
+                      help="Average of the highest posterior probability of each sample.")
+            m4.metric("Outside all PSAs (95 %)", n_out,
+                      help="Samples outside the 95 % ellipse of every selected PSA.")
+
             st.subheader("A · Potential Source Areas and samples")
             fig_a = plot_region_diagram(
                 sources, samples, diagram_regions, y=ycol, region_colors=colors,
@@ -432,5 +445,4 @@ with tab_res:
                 st.download_button("Download CSV", stats.to_csv(index=False).encode(), "psa_statistics.csv",
                                    "text/csv")
 
-st.divider()
-st.caption("Bayesian Model for PSA · open-source · see the GitHub repository for documentation and citation.")
+footer()
